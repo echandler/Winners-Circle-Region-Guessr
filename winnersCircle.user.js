@@ -1,7 +1,7 @@
 // ==UserScript==
-// @name         Winners Circle v0.3 
+// @name         Winners Circle v0.4
 // @namespace    Winners Circle 
-// @version      0.3
+// @version      0.4
 // @description  Harder than country streaks. 
 // @author       echandler 
 // @match        https://www.geoguessr.com/*
@@ -406,10 +406,17 @@
         }
 
         function inputChangeEvt(e){
-            isInTestingState = true; 
-            this.value = this.value.replace(/\,/g, '');
-            updateLocalStorage(this);
-            this.value = parseFloat(this.value).toLocaleString();
+            setTimeout(()=>{
+                isInTestingState = true;
+                
+                this.value = this.value.replace(/\,/g, '');
+                
+                updateLocalStorage(this);
+
+                if (this.value.test(/\./)) return;
+
+                this.value = parseFloat(this.value).toLocaleString();
+            }, 500);
         }
 
         function updateLocalStorage(el) {
