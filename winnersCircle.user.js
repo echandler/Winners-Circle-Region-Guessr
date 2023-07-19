@@ -1,7 +1,7 @@
 // ==UserScript==
-// @name         Winners Circle v0.4
+// @name         Winners Circle v0.5
 // @namespace    Winners Circle 
-// @version      0.4
+// @version      0.5
 // @description  Harder than country streaks. 
 // @author       echandler 
 // @match        https://www.geoguessr.com/*
@@ -98,7 +98,7 @@
                         strokeOpacity: 0.8,
                         strokeWeight: 2,
                         fillColor: "#FF0000",
-                        fillOpacity: 0.35,
+                        fillOpacity: data.circleOpacity ?? 0.0,
                         map: __map,
                         center: evt.latLng,
                         radius: Math.ceil(_circleSize),
@@ -203,7 +203,7 @@
                     strokeOpacity: 0.8,
                     strokeWeight: 2,
                     fillColor: "#00FF00",
-                    fillOpacity: 0.35,
+                    fillOpacity: 0.15,
                     map: __map,
                     center: latLng,
                     radius: Math.ceil(_circleSize),
@@ -325,6 +325,24 @@
         countries.sort();
 
         wrapper.style.cssText = `max-height: 50vh; overflow-y:scroll;`;
+        
+        let circleOpacity = document.createElement('tr');
+        circleOpacity.innerHTML = `<td>Circle Opacity (0.0 - 1.0)</td><td><input id='coinput' value='${data.circleOpacity ?? 0.0 }'></input></td>`;
+        let coinput = circleOpacity.querySelector('#coinput');
+        coinput._country = "circleOpacity"; 
+        coinput.addEventListener('change', function(){
+            setTimeout(()=>{
+                isInTestingState = true;
+                
+                updateLocalStorage(this);
+
+                if (/\./.test(this.value)) return;
+
+                this.value = parseFloat(this.value).toLocaleString();
+            }, 500);
+        });
+        
+        table.appendChild(circleOpacity);
 
         // Add multiplier row
         let multiplier_tr = document.createElement('tr');
