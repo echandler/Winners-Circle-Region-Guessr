@@ -1,3 +1,5 @@
+``⚠️`` Installing any script could get your account banned.
+
 # Winners-Circle-Region-Guessr
 Circle region guessing script for Geoguessr.
 
